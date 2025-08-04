@@ -93,14 +93,20 @@ st.markdown(f"""
 
 # --- 🔽 🔽 🔽 여기부터 GPT 챗봇 인터페이스 추가 --- #
 
-st.markdown("---")
-st.subheader("🧠 GPT 기반 화재 관련 질문 상담")
+import streamlit as st
+import openai
 
-# 세션 상태 초기화
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+# 🎯 반드시 먼저 세션 초기화
 if "firechat" not in st.session_state:
     st.session_state.firechat = [
         {"role": "system", "content": "당신은 화재 재발 방지와 안전에 대한 전문가입니다. 친절하고 구체적으로 답변해 주세요."}
     ]
+
+# UI 출력
+st.markdown("---")
+st.subheader("🧠 GPT 기반 화재 관련 질문 상담")
 
 # 이전 대화 출력
 for msg in st.session_state.firechat[1:]:
@@ -114,14 +120,15 @@ with st.form("firechat_form", clear_on_submit=True):
     user_input = st.text_input("🔥 화재 관련 궁금한 점을 입력해 보세요!")
     submitted = st.form_submit_button("보내기")
 
+# GPT 응답 처리
 if submitted and user_input:
     st.session_state.firechat.append({"role": "user", "content": user_input})
 
     with st.spinner("GPT가 답변을 작성 중입니다..."):
-        reply = client.chat.completions.create(
+        reply = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=st.session_state.firechat
         ).choices[0].message.content
 
     st.session_state.firechat.append({"role": "assistant", "content": reply})
-    st.rerun()  # 화면 갱신
+    st.rerun()
