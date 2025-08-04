@@ -5,6 +5,10 @@ import re
 import openai
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=st.session_state.firechat
+).choices[0].message.content
 
 
 # 페이지 설정
