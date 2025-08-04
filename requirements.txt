@@ -7,4 +7,4 @@ pyproj
 matplotlib
 plotly
 numpy
-openai>=1.0.0
+openai
