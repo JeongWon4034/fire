@@ -101,6 +101,9 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 ############################## GPT 인터페이스 ##############################
+# OpenAI 클라이언트 초기화
+client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 
 st.markdown("---")
 st.subheader("🧠 GPT 기반 화재 관련 질문 상담")
