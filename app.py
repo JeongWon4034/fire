@@ -2,8 +2,9 @@ import streamlit as st
 import pandas as pd
 import requests
 import re
-from openai import OpenAI
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+import openai
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
 
 
 # 페이지 설정
