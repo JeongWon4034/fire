@@ -85,14 +85,14 @@ st.markdown(f"""
 
 # --- 🔽 🔽 🔽 여기부터 GPT 챗봇 인터페이스 추가 --- #
 
-import streamlit as st
-import openai
 from openai import OpenAI
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+import streamlit as st
+
 reply = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=st.session_state.firechat
 ).choices[0].message.content
+
 
 
 # 🎯 반드시 먼저 세션 초기화
