@@ -1,12 +1,22 @@
 import streamlit as st
+from openai import OpenAI
 import pandas as pd
 import requests
 import re
 
-# 페이지 설정
+# ✅ GPT 클라이언트 생성 (OpenAI v1.x 이상 기준)
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+# ✅ 세션 상태 초기화는 GPT 호출보다 위에 있어야 함
+if "firechat" not in st.session_state:
+    st.session_state.firechat = [
+        {"role": "system", "content": "당신은 화재 재발 방지와 안전에 대한 전문가입니다. 친절하고 구체적으로 답변해 주세요."}
+    ]
+
+# 🖥️ 페이지 설정
 st.set_page_config(page_title="재화재 예측 시뮬레이션", layout="wide", page_icon="⚠️")
 
-# 프리미엄 스타일 정의
+# 🎨 스타일 정의
 st.markdown("""
 <style>
     .metric-container {
@@ -47,7 +57,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 상단 제목
+# 🔥 제목
 st.markdown("""
 <div style="text-align: center; padding-top: 2rem;">
     <h1 style="font-size: 2.8rem;"> 🔥 재화재 예측 시뮬레이션</h1>
@@ -55,13 +65,12 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 더미 값
+# ✅ 박스 4개 (더미 값)
 num_sources = 128
 num_detections = 64
 num_types = 5
 success_rate = 87.5
 
-# 네모 박스 4개 출력
 st.markdown(f"""
 <div class="metric-container">
     <div class="metric-box">
@@ -83,25 +92,8 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# --- 🔽 🔽 🔽 여기부터 GPT 챗봇 인터페이스 추가 --- #
+# --- 🔽 GPT 챗봇 인터페이스 --- #
 
-from openai import OpenAI
-import streamlit as st
-
-reply = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=st.session_state.firechat
-).choices[0].message.content
-
-
-
-# 🎯 반드시 먼저 세션 초기화
-if "firechat" not in st.session_state:
-    st.session_state.firechat = [
-        {"role": "system", "content": "당신은 화재 재발 방지와 안전에 대한 전문가입니다. 친절하고 구체적으로 답변해 주세요."}
-    ]
-
-# UI 출력
 st.markdown("---")
 st.subheader("🧠 GPT 기반 화재 관련 질문 상담")
 
@@ -122,7 +114,7 @@ if submitted and user_input:
     st.session_state.firechat.append({"role": "user", "content": user_input})
 
     with st.spinner("GPT가 답변을 작성 중입니다..."):
-        reply = openai.ChatCompletion.create(
+        reply = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=st.session_state.firechat
         ).choices[0].message.content
