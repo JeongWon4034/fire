@@ -2,12 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 import re
-from openai import OpenAI
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-reply = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=st.session_state.firechat
-).choices[0].message.content
 
 # 페이지 설정
 st.set_page_config(page_title="재화재 예측 시뮬레이션", layout="wide", page_icon="⚠️")
@@ -93,8 +87,13 @@ st.markdown(f"""
 
 import streamlit as st
 import openai
+from openai import OpenAI
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+reply = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=st.session_state.firechat
+).choices[0].message.content
 
-openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # 🎯 반드시 먼저 세션 초기화
 if "firechat" not in st.session_state:
