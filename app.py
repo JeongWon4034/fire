@@ -2,10 +2,12 @@ import streamlit as st
 import pandas as pd
 import requests
 import re
-import openai
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-
-
+from openai import OpenAI
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+reply = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=st.session_state.firechat
+).choices[0].message.content
 
 # 페이지 설정
 st.set_page_config(page_title="재화재 예측 시뮬레이션", layout="wide", page_icon="⚠️")
