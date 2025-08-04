@@ -1,17 +1,25 @@
 import streamlit as st
-from openai import OpenAI
 import pandas as pd
+import folium
 import requests
-import re
+from streamlit_folium import st_folium
+import openai
+import math
+import os
+
 
 # ✅ GPT 클라이언트 생성 (OpenAI v1.x 이상 기준)
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # ✅ 세션 상태 초기화는 GPT 호출보다 위에 있어야 함
 if "firechat" not in st.session_state:
     st.session_state.firechat = [
         {"role": "system", "content": "당신은 화재 재발 방지와 안전에 대한 전문가입니다. 친절하고 구체적으로 답변해 주세요."}
     ]
+
+
+##############################  🖥️ 페이지 설정 ##############################
+
 
 # 🖥️ 페이지 설정
 st.set_page_config(page_title="재화재 예측 시뮬레이션", layout="wide", page_icon="⚠️")
@@ -92,7 +100,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# --- 🔽 GPT 챗봇 인터페이스 --- #
+############################## GPT 인터페이스 ##############################
 
 st.markdown("---")
 st.subheader("🧠 GPT 기반 화재 관련 질문 상담")
