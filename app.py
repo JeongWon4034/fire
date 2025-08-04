@@ -1,7 +1,7 @@
 import streamlit as st
 
 # 페이지 설정
-st.set_page_config(page_title="AI 지하수 오염 분석 시스템", layout="wide", page_icon="💧")
+st.set_page_config(page_title="재화재 예측 시뮬레이션", layout="wide", page_icon="⚠️")
 
 # 프리미엄 스타일 정의
 st.markdown("""
@@ -47,7 +47,7 @@ st.markdown("""
 # 상단 제목
 st.markdown("""
 <div style="text-align: center; padding-top: 2rem;">
-    <h1 style="font-size: 2.8rem;">💧 AI 지하수 오염 분석 시스템</h1>
+    <h1 style="font-size: 2.8rem;"> 🔥 재화재 예측 시뮬레이션</h1>
     <p style="font-size: 1.2rem; color: gray;">프리미엄 핵심 지표</p>
 </div>
 """, unsafe_allow_html=True)
@@ -62,15 +62,15 @@ success_rate = 87.5
 st.markdown(f"""
 <div class="metric-container">
     <div class="metric-box">
-        <div class="metric-title">🏭 분석된 오염원</div>
+        <div class="metric-title">🏭 서울 화재 분석</div>
         <div class="metric-value">{num_sources}개소</div>
     </div>
     <div class="metric-box">
-        <div class="metric-title">⚠️ 오염 감지 지점</div>
+        <div class="metric-title">⚠️ 내 건물 화재 위험도</div>
         <div class="metric-value">{num_detections}건</div>
     </div>
     <div class="metric-box">
-        <div class="metric-title">📊 오염원 유형</div>
+        <div class="metric-title">📊 오늘의 날씨</div>
         <div class="metric-value">{num_types}종</div>
     </div>
     <div class="metric-box">
